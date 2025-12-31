@@ -1,0 +1,887 @@
+{
+  "name": "[AGENTE] - TRINKS",
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "mensagem"
+            },
+            {
+              "name": "empresa",
+              "type": "object"
+            },
+            {
+              "name": "cliente",
+              "type": "object"
+            }
+          ]
+        }
+      },
+      "id": "9b6fb9c9-7192-48e4-8393-ea8a5c1e76c6",
+      "name": "QEPOW",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        -128,
+        112
+      ],
+      "typeVersion": 1.1
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.1,
+      "position": [
+        112,
+        0
+      ],
+      "id": "c3d7d52c-6b66-4e4e-91cf-906fbf87cd45",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "availableInChat": true,
+        "agentName": "Agenda",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -368,
+        0
+      ],
+      "id": "9bd59edc-2e9c-4563-8246-bdbaeba9ac29",
+      "name": "Chat",
+      "webhookId": "51b7d750-cd1c-49fc-b6ed-0a2b193256f2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3407f796-8225-413e-b2c7-1cd8a0e71ee7",
+              "name": "Mensagem",
+              "value": "={{ $('Chat').first().json.chatInput }}",
+              "type": "string"
+            },
+            {
+              "id": "6cda24ff-2d20-47c4-b264-41580a1a78a0",
+              "name": "Cliente",
+              "value": "={\n  \"Nome\": \"Caio\",\n  \"precisa_followup\": false,\n  \"motivo_followup\": null,\n  \"Whatsapp\": \"557481402176\",\n  \"tempo_followup\": null,\n  \"ia_desable\": false,\n  \"session\": \"Dubbo\",\n  \"idAgendamento\": \"64crv2dp1itljfm0kk6lmja268\",\n  \"id\": 7,\n  \"createdAt\": \"2025-11-28T00:31:07.283Z\",\n  \"updatedAt\": \"2025-12-12T03:42:31.094Z\"\n}",
+              "type": "object"
+            },
+            {
+              "id": "5eacc528-2900-4b15-aeaa-e255e5bf49b4",
+              "name": "Empresa",
+              "value": "={\n  \"Nome\": \"Dubbo Marketing\",\n  \"session\": \"Dubbo\",\n  \"Whatsapp\": \"558781779740\",\n  \"Creditos\": 979,\n  \"tempoDeBuffer\": 30,\n  \"pausaParaHumano\": 60,\n  \"Grupo\": null,\n  \"Agente\": \"GdYu936HdoHcDMqz\",\n  \"Ligado\": true,\n  \"TabelaClientes\": \"vvaf1YtyErcI3Hw1\",\n  \"urlbase\": \"https://apiwaha.flowmidas.club\",\n  \"id\": 3,\n  \"createdAt\": \"2025-10-08T05:17:35.087Z\",\n  \"updatedAt\": \"2025-12-11T20:28:49.582Z\"\n}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -128,
+        -112
+      ],
+      "id": "9198fe0d-75c4-4877-b2e7-2d2e0d313e15",
+      "name": "Mock"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-5.2-2025-12-11",
+          "mode": "list",
+          "cachedResultName": "gpt-5.2-2025-12-11"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        736,
+        416
+      ],
+      "id": "777d62cd-9730-40ec-9b55-a75b25201bbb",
+      "name": "5.2",
+      "credentials": {
+        "openAiApi": {
+          "id": "7sxiLKy1YCEEJUwS",
+          "name": "Flooxa CRM"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1-2025-04-14",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1-2025-04-14"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        880,
+        496
+      ],
+      "id": "8ec1e52b-dd89-4877-ad0e-318316cbfb90",
+      "name": "4.1",
+      "credentials": {
+        "openAiApi": {
+          "id": "7sxiLKy1YCEEJUwS",
+          "name": "Flooxa CRM"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "=Trinks{{ $('Merge').first().json.Cliente.Whatsapp }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        1168,
+        656
+      ],
+      "id": "21b0a9c0-d5b7-4267-8210-16408ba0434a",
+      "name": "Memory",
+      "credentials": {
+        "redis": {
+          "id": "PcR6h7cpTpsMigtm",
+          "name": "[REDIS CHAT] - FlowMidas"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-5.1-2025-11-13",
+          "mode": "list",
+          "cachedResultName": "gpt-5.1-2025-11-13"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        1456,
+        496
+      ],
+      "id": "a1e864ff-f4d1-4e32-be0c-820464eddbf6",
+      "name": "5.2 Fallback",
+      "credentials": {
+        "openAiApi": {
+          "id": "7sxiLKy1YCEEJUwS",
+          "name": "Flooxa CRM"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"mensagem\": {\n      \"type\": \"string\"\n    },\n    \"servicoId\": {\n      \"type\": [\"integer\", \"null\"],\n      \"format\": \"int32\"\n    },\n    \"clienteId\": {\n      \"type\": [\"integer\", \"null\"],\n      \"format\": \"int32\"\n    },\n    \"profissionalId\": {\n      \"type\": [\"integer\", \"null\"],\n      \"format\": \"int32\"\n    },\n    \"dataHoraInicio\": {\n      \"type\": [\"string\", \"null\"],\n      \"format\": \"date-time\"\n    },\n    \"duracaoEmMinutos\": {\n      \"type\": [\"integer\", \"null\"],\n      \"format\": \"int32\"\n    },\n    \"valor\": {\n      \"type\": [\"number\", \"null\"],\n      \"format\": \"double\"\n    },\n    \"observacoes\": {\n      \"type\": [\"string\", \"null\"]\n    }\n  },\n  \"required\": [\n    \"mensagem\",\n    \"servicoId\",\n    \"clienteId\",\n    \"profissionalId\",\n    \"dataHoraInicio\",\n    \"duracaoEmMinutos\",\n    \"valor\",\n    \"observacoes\"\n  ]\n}",
+        "autoFix": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1600,
+        416
+      ],
+      "id": "e73b7044-dc04-4793-92b7-f46b11d169d1",
+      "name": "Output Parser"
+    },
+    {
+      "parameters": {
+        "mode": "delete",
+        "lastMessagesCount": 1
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryManager",
+      "typeVersion": 1.1,
+      "position": [
+        1488,
+        0
+      ],
+      "id": "5537b6ce-954b-4b22-a6ba-db95c60ab284",
+      "name": "delMessage"
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "messages": {
+          "messageValues": [
+            {
+              "type": "ai",
+              "message": "={{ $('Agendador').item.json.output.mensagem }}"
+            },
+            {
+              "message": "={{ JSON.stringify((() => {\n  const data = { ...$('Agendador').item.json.output };\n  delete data.mensagem;\n  return data;\n})(), null, 2) }}"
+            }
+          ]
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryManager",
+      "typeVersion": 1.1,
+      "position": [
+        1856,
+        0
+      ],
+      "id": "ebeaafeb-5067-490d-9f5b-f6fd3c9ddace",
+      "name": "insertMessage"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b7360679-5e64-4919-b78c-909668352660",
+              "name": "output",
+              "value": "={{ $('Agendador').item.json.output.mensagem }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2224,
+        0
+      ],
+      "id": "822ca86d-5517-40df-9730-a5742ec0471d",
+      "name": "Output"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        832,
+        -336
+      ],
+      "id": "ab3ea619-987f-4c8b-a3b1-b88339bd5d02",
+      "name": "Start"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('Merge').first().json.Mensagem }}",
+        "hasOutputParser": true,
+        "needsFallback": true,
+        "options": {
+          "systemMessage": "=### Tools\n\n* Disponibilidade:\nUtilize esta tool sempre que for necessário verificar a disponibilidade de um serviço em uma data específica. Antes de realizar qualquer agendamento, confirme se o horário desejado pelo cliente ainda está livre.\n\nInput: idDoServico, data.\n\n* Agendar:\nUtilize esta tool sempre que for necessário realizar o agendamento de um cliente.\nEla cria um novo agendamento com base no serviço escolhido, profissional, data e demais informações fornecidas. Deve ser chamada após a confirmação de disponibilidade do horário desejado.\n\n### Serviços\n{{\n(() => {\n  const raw = $('getServicos').item.json.getServicos\n  // Garante array\n  const data = Array.isArray(raw)\n    ? raw\n    : JSON.parse(\n        raw.replace(/^### Serviços\\s*/g, '')\n      )\n  // Remove campos indesejados\n  const cleaned = data.map(({ visivelParaCliente, categoria, ...rest }) => rest)\n  // Retorna como string\n  return JSON.stringify(cleaned, null, 2)\n})()\n}}\n\n### Profissionais\n\n{{\n(() => {\n  const raw = $('getProfissionais').item.json.getProfissionais\n  // Garante array\n  const data = Array.isArray(raw)\n    ? raw\n    : JSON.parse(\n        raw.replace(/^### Profissionais\\s*/g, '')\n      )\n  // Remove campos indesejados\n  const cleaned = data.map(({ nome, cpf, ...rest }) => rest)\n  // Retorna como string\n  return JSON.stringify(cleaned, null, 2)\n})()\n}}\n\n### Cliente\n\n{{\n(() => {\n  const cliente = $json.Cliente\n  let result = null\n  // Caso 1: Cliente direto\n  if (cliente?.id) {\n    result = {\n      id: cliente.id,\n      nome: cliente.nome\n    }\n  }\n  // Caso 2: Cliente paginado\n  else if (Array.isArray(cliente?.data) && cliente.data.length > 0) {\n    result = {\n      id: cliente.data[0].id,\n      nome: cliente.data[0].nome\n    }\n  }\n  // Retorna como STRING (evita [object Object])\n  return JSON.stringify(result, null, 2)\n})()\n}}\n\n### Dados do sistema\nData/Hora Atual: {{ $now.setLocale('pt-BR').setZone('America/Sao_Paulo').toFormat(\"cccc, dd/LL/yyyy HH:mm\") }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        1072,
+        0
+      ],
+      "id": "96401ffd-0ca6-4b53-9b87-de57a0935c1c",
+      "name": "Agendador"
+    },
+    {
+      "parameters": {
+        "mode": "delete",
+        "deleteMode": "all"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryManager",
+      "typeVersion": 1.1,
+      "position": [
+        1072,
+        -336
+      ],
+      "id": "1ffc333f-3ec7-4a54-8f2f-5edd7b702e91",
+      "name": "ADM Memory"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "=Trinks557481402176"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
+      "typeVersion": 1.5,
+      "position": [
+        1072,
+        -160
+      ],
+      "id": "40d3e987-513c-424a-9f26-5b1d6bc231fa",
+      "name": "Memory ADM",
+      "credentials": {
+        "redis": {
+          "id": "PcR6h7cpTpsMigtm",
+          "name": "[REDIS CHAT] - FlowMidas"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "0sy3OvTbX5DZHRWT",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/0sy3OvTbX5DZHRWT",
+          "cachedResultName": "[SUBWORKFLOW] - getServicos"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        352,
+        0
+      ],
+      "id": "f789270a-6a96-43ba-826c-393b9dee2183",
+      "name": "getServicos"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "0bRoajglZEbIyWP3",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/0bRoajglZEbIyWP3",
+          "cachedResultName": "[SUBWORKFLOW] - getProfissionais"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        592,
+        0
+      ],
+      "id": "07ea07c6-b39a-4342-b10b-0e6fa8e55c00",
+      "name": "getProfissionais"
+    },
+    {
+      "parameters": {
+        "description": "Use esta tool sempre que precisar confirmar se há horários disponíveis para um serviço em uma data específica, antes de realizar o agendamento.",
+        "workflowId": {
+          "__rl": true,
+          "value": "ikjjdW99VBy6IZx6",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ikjjdW99VBy6IZx6",
+          "cachedResultName": "[TOOL] - Disponibilidade"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "servicoDuracao": "={{ $fromAI('servicoDuracao', `ID do serviço escolhido pelo cliente.`, 'number') }}",
+            "Data": "={{ $fromAI('Data', `Dia que o cliente esta buscando vaga.`, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Data",
+              "displayName": "Data",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "servicoDuracao",
+              "displayName": "servicoDuracao",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        1024,
+        576
+      ],
+      "id": "5a808225-0c6d-4c82-aa74-1592ab386408",
+      "name": "Disponibilidade"
+    },
+    {
+      "parameters": {
+        "description": "Use esta tool para efetivar o agendamento no sistema quando o cliente já tiver escolhido o serviço, o profissional e o horário disponível.",
+        "workflowId": {
+          "__rl": true,
+          "value": "Dfxl9QfsbOPNxz7E",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/Dfxl9QfsbOPNxz7E",
+          "cachedResultName": "[TOOL] - Agendar"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "observacoes": "={{ $fromAI('observacoes', `Observações do agendamento. Exemplo: Cliente com diabetes.`, 'string') }}",
+            "valor": "={{ $fromAI('valor', `Valor do serviço escolhido.`, 'number') }}",
+            "duracaoEmMinutos": "={{ $fromAI('duracaoEmMinutos', `Duração em minutos do serviço escolhido.`, 'number') }}",
+            "dataHoraInicio": "={{ $fromAI('dataHoraInicio', `Data hora inicio escolhido pelo cliente no formato date time. Exemplo: YYYY-MM-DDT00:00:00`, 'string') }}",
+            "profissionalId": "={{ $fromAI('profissionalId', `ID do profissional escolhido pelo cliente.`, 'number') }}",
+            "servicoId": "={{ $fromAI('servicoId', `ID do serviço escolhido pelo cliente.`, 'number') }}",
+            "clienteId": "={{ $fromAI('clienteId', `ID do cliente.`, 'number') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "servicoId",
+              "displayName": "servicoId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number"
+            },
+            {
+              "id": "clienteId",
+              "displayName": "clienteId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number"
+            },
+            {
+              "id": "profissionalId",
+              "displayName": "profissionalId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number"
+            },
+            {
+              "id": "dataHoraInicio",
+              "displayName": "dataHoraInicio",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "duracaoEmMinutos",
+              "displayName": "duracaoEmMinutos",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number"
+            },
+            {
+              "id": "valor",
+              "displayName": "valor",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number"
+            },
+            {
+              "id": "observacoes",
+              "displayName": "observacoes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        1312,
+        576
+      ],
+      "id": "aa83c7b6-cce4-4d09-8132-e7e36df8f336",
+      "name": "Agendar"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qko6WyOnE9ZRcrNG",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qko6WyOnE9ZRcrNG",
+          "cachedResultName": "[SUBWORKFLOW] - getCliente"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Whatsapp": "={{ \n(() => {\n  const num = $('Merge').item.json.Cliente.Whatsapp\n  // remove DDI (2) + DDD (2)\n  let telefone = num.slice(4)\n  // se tiver 9 dígitos e começar com 9, remove o 9\n  if (telefone.length === 9 && telefone.startsWith('9')) {\n    telefone = telefone.slice(1)\n  }\n  return telefone\n})()\n}}",
+            "DDD": "={{ $('Merge').item.json.Cliente.Whatsapp.slice(2, 4) }}",
+            "DDI": "={{ $('Merge').item.json.Cliente.Whatsapp.slice(0, 2) }}",
+            "Nome": "={{ $('Merge').item.json.Cliente.Nome }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Whatsapp",
+              "displayName": "Whatsapp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "Nome",
+              "displayName": "Nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "DDD",
+              "displayName": "DDD",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "DDI",
+              "displayName": "DDI",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        832,
+        0
+      ],
+      "id": "4c0d3256-5401-45e4-a568-42c3d3da9214",
+      "name": "getCliente"
+    }
+  ],
+  "pinData": {
+    "QEPOW": [
+      {
+        "json": {
+          "mensagem": "Oi",
+          "empresa": {
+            "Nome": "Maple Bear",
+            "session": "MapleBear",
+            "Whatsapp": "558781779740",
+            "Creditos": 996,
+            "tempoDeBuffer": 30,
+            "pausaParaHumano": 60,
+            "Grupo": null,
+            "Agente": "W1fgfsDmG7Hu4klS",
+            "Ligado": true,
+            "TabelaClientes": "vvaf1YtyErcI3Hw1",
+            "urlbase": "https://apiwaha.flowmidas.club",
+            "id": 3,
+            "createdAt": "2025-10-08T05:17:35.087Z",
+            "updatedAt": "2025-11-28T23:52:52.639Z"
+          },
+          "cliente": {
+            "Nome": "Caio",
+            "precisa_followup": null,
+            "motivo_followup": null,
+            "Whatsapp": "557481402176",
+            "tempo_followup": null,
+            "ia_desable": null,
+            "session": "MapleBear",
+            "idAgendamento": null,
+            "id": 7,
+            "createdAt": "2025-11-28T00:31:07.283Z",
+            "updatedAt": "2025-11-28T00:31:07.283Z"
+          }
+        }
+      }
+    ]
+  },
+  "connections": {
+    "QEPOW": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Chat": {
+      "main": [
+        [
+          {
+            "node": "Mock",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mock": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "getServicos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "5.2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Agendador",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "4.1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Agendador",
+            "type": "ai_languageModel",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Agendador",
+            "type": "ai_memory",
+            "index": 0
+          },
+          {
+            "node": "delMessage",
+            "type": "ai_memory",
+            "index": 0
+          },
+          {
+            "node": "insertMessage",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "5.2 Fallback": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Output Parser",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Agendador",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "delMessage": {
+      "main": [
+        [
+          {
+            "node": "insertMessage",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "insertMessage": {
+      "main": [
+        [
+          {
+            "node": "Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "ADM Memory",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agendador": {
+      "main": [
+        [
+          {
+            "node": "delMessage",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Memory ADM": {
+      "ai_memory": [
+        [
+          {
+            "node": "ADM Memory",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getServicos": {
+      "main": [
+        [
+          {
+            "node": "getProfissionais",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getProfissionais": {
+      "main": [
+        [
+          {
+            "node": "getCliente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Disponibilidade": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agendador",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agendar": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agendador",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getCliente": {
+      "main": [
+        [
+          {
+            "node": "Agendador",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "1d256754-bb36-4ca1-bdbb-2c4bd44daf85",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "d47decf17b971c33cf7b5dec9572b981142fa85c3d30a8a0eb41b58fe2f3b048"
+  },
+  "id": "YD45QbqB08k832zz",
+  "tags": []
+}
