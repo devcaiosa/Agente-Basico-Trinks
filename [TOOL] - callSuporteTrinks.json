@@ -1,0 +1,334 @@
+{
+  "name": "[TOOL] - callSuporteTrinks",
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3c19aece-90ac-4161-905a-bcaa21f79704",
+              "name": "system",
+              "value": "=Avise que encaminhamos o caso para atendimento!",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -80,
+        176
+      ],
+      "id": "bc3a3876-9ef4-4f08-bbcb-713663b12d7b",
+      "name": "response"
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "=stop:{{ $('QEPOW').first().json.empresa.session + $('QEPOW').first().json.cliente.Whatsapp.toString() }}",
+        "value": "=stop:{{ $('QEPOW').first().json.empresa.session + $('QEPOW').first().json.cliente.Whatsapp.toString() }}",
+        "expire": true,
+        "ttl": "={{ ($('QEPOW').item.json.empresa.pausaParaHumano) * 60 }}"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        -288,
+        176
+      ],
+      "id": "f0b6cae8-1731-40a0-a856-29b87d7b636b",
+      "name": "pausa.ia",
+      "credentials": {
+        "redis": {
+          "id": "PcR6h7cpTpsMigtm",
+          "name": "[REDIS CHAT] - FlowMidas"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "=stop:StoperAdega557481402176"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        -288,
+        0
+      ],
+      "id": "56236805-51a3-4b13-b020-6d728956fdc9",
+      "name": "deleta chave",
+      "credentials": {
+        "redis": {
+          "id": "PcR6h7cpTpsMigtm",
+          "name": "[REDIS CHAT] - FlowMidas"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "empresa",
+              "type": "object"
+            },
+            {
+              "name": "cliente",
+              "type": "object"
+            },
+            {
+              "name": "resumo"
+            },
+            {
+              "name": "É um teste?",
+              "type": "boolean"
+            }
+          ]
+        }
+      },
+      "id": "bb30bdd3-a60c-4c92-bad1-90a382dcb204",
+      "typeVersion": 1.1,
+      "name": "QEPOW",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        -1152,
+        96
+      ]
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -720,
+        16
+      ],
+      "id": "0262578b-feb7-43d3-8db0-ee4f8e44704e",
+      "name": "No Operation"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "6b84a661-3d1a-4923-adf6-68c5089c5187",
+              "leftValue": "={{ $('QEPOW').first().json['É um teste?'] || false }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -944,
+        96
+      ],
+      "id": "fa06a20a-7f28-4cbd-b1fb-20b0fd4fb71a",
+      "name": "Ifteste?"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('QEPOW').first().json.empresa.urlbase }}/api/sendText",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "chatId",
+              "value": "={{ $('QEPOW').first().json.Empresa.Grupo }}"
+            },
+            {
+              "name": "text",
+              "value": "=🚨 Novo Pedido de Suporte 🚨\nO cliente {{ $('QEPOW').first().json.cliente.Nome }} solicitou atendimento.\n📞 Contato: +{{ $('QEPOW').item.json.cliente.Whatsapp }}\n📝 Motivo: {{ $('QEPOW').first().json.resumo }}\n\n➡️ Equipe, favor priorizar o atendimento."
+            },
+            {
+              "name": "session",
+              "value": "={{ $('QEPOW').first().json.empresa.session }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -512,
+        176
+      ],
+      "id": "aa916a40-7cd9-488c-9434-16f38b5a76d8",
+      "name": "GRUPO",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "CJ64Uscjak6LOlCw",
+          "name": "[WAHA] - FlowMidas"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "dataToSave": {
+          "values": [
+            {
+              "key": "whatsapp",
+              "value": "={{ $('QEPOW').first().json.cliente.Whatsapp }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executionData",
+      "typeVersion": 1,
+      "position": [
+        -720,
+        176
+      ],
+      "id": "ff588e9e-bc39-4be5-ad95-5238bfaa9998",
+      "name": "log"
+    }
+  ],
+  "pinData": {
+    "QEPOW": [
+      {
+        "json": {
+          "empresa": {
+            "Nome": "Dubbo Marketing",
+            "session": "Dubbo",
+            "Whatsapp": "558781779740",
+            "Creditos": 979,
+            "tempoDeBuffer": 30,
+            "pausaParaHumano": 60,
+            "Grupo": null,
+            "Agente": "GdYu936HdoHcDMqz",
+            "Ligado": true,
+            "TabelaClientes": "vvaf1YtyErcI3Hw1",
+            "urlbase": "https://apiwaha.flowmidas.club",
+            "id": 3,
+            "createdAt": "2025-10-08T05:17:35.087Z",
+            "updatedAt": "2025-12-11T20:28:49.582Z"
+          },
+          "cliente": {
+            "Nome": "Caio",
+            "precisa_followup": false,
+            "motivo_followup": null,
+            "Whatsapp": "5574981402176",
+            "tempo_followup": null,
+            "ia_desable": false,
+            "session": "Dubbo",
+            "idAgendamento": "64crv2dp1itljfm0kk6lmja268",
+            "id": 7,
+            "createdAt": "2025-11-28T00:31:07.283Z",
+            "updatedAt": "2025-12-12T03:42:31.094Z"
+          },
+          "resumo": "Cliente solicitou acionar o suporte ('pode chamar o suporte?'). Favor entrar em contato e auxiliar.",
+          "É um teste?": true
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "connections": {
+    "pausa.ia": {
+      "main": [
+        [
+          {
+            "node": "response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "QEPOW": {
+      "main": [
+        [
+          {
+            "node": "Ifteste?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ifteste?": {
+      "main": [
+        [
+          {
+            "node": "No Operation",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "log",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GRUPO": {
+      "main": [
+        [
+          {
+            "node": "pausa.ia",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "log": {
+      "main": [
+        [
+          {
+            "node": "GRUPO",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "8f8787d2-b0f4-43ae-841d-b89204215626",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "d47decf17b971c33cf7b5dec9572b981142fa85c3d30a8a0eb41b58fe2f3b048"
+  },
+  "id": "3v7dEyPOASj9kG2o",
+  "tags": []
+}

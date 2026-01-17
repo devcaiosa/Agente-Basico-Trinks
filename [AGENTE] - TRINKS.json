@@ -23,7 +23,7 @@
       "name": "QEPOW",
       "type": "n8n-nodes-base.executeWorkflowTrigger",
       "position": [
-        -128,
+        -368,
         112
       ],
       "typeVersion": 1.1
@@ -33,27 +33,11 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.1,
       "position": [
-        112,
+        -128,
         0
       ],
       "id": "c3d7d52c-6b66-4e4e-91cf-906fbf87cd45",
       "name": "Merge"
-    },
-    {
-      "parameters": {
-        "availableInChat": true,
-        "agentName": "Agenda",
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
-      "typeVersion": 1.4,
-      "position": [
-        -368,
-        0
-      ],
-      "id": "9bd59edc-2e9c-4563-8246-bdbaeba9ac29",
-      "name": "Chat",
-      "webhookId": "51b7d750-cd1c-49fc-b6ed-0a2b193256f2"
     },
     {
       "parameters": {
@@ -68,7 +52,7 @@
             {
               "id": "6cda24ff-2d20-47c4-b264-41580a1a78a0",
               "name": "Cliente",
-              "value": "={\n  \"Nome\": \"Caio\",\n  \"precisa_followup\": false,\n  \"motivo_followup\": null,\n  \"Whatsapp\": \"557481402176\",\n  \"tempo_followup\": null,\n  \"ia_desable\": false,\n  \"session\": \"Dubbo\",\n  \"idAgendamento\": \"64crv2dp1itljfm0kk6lmja268\",\n  \"id\": 7,\n  \"createdAt\": \"2025-11-28T00:31:07.283Z\",\n  \"updatedAt\": \"2025-12-12T03:42:31.094Z\"\n}",
+              "value": "={\n  \"Nome\": \"Caio\",\n  \"precisa_followup\": false,\n  \"motivo_followup\": null,\n  \"Whatsapp\": \"5574981402176\",\n  \"tempo_followup\": null,\n  \"ia_desable\": false,\n  \"session\": \"Dubbo\",\n  \"idAgendamento\": \"64crv2dp1itljfm0kk6lmja268\",\n  \"id\": 7,\n  \"createdAt\": \"2025-11-28T00:31:07.283Z\",\n  \"updatedAt\": \"2025-12-12T03:42:31.094Z\"\n}",
               "type": "object"
             },
             {
@@ -84,7 +68,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -128,
+        -368,
         -112
       ],
       "id": "9198fe0d-75c4-4877-b2e7-2d2e0d313e15",
@@ -99,7 +83,16 @@
           "cachedResultName": "gpt-5.2-2025-12-11"
         },
         "builtInTools": {},
-        "options": {}
+        "options": {
+          "textFormat": {
+            "textOptions": {
+              "type": "json_schema",
+              "schema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"mensagem\": {\n      \"type\": \"string\"\n    },\n    \"encerrarConversa\": {\n      \"type\": \"boolean\"\n    },\n    \"servicoId\": {\n      \"type\": [\"integer\", \"null\"]\n    },\n    \"clienteId\": {\n      \"type\": [\"integer\", \"null\"]\n    },\n    \"profissionalId\": {\n      \"type\": [\"integer\", \"null\"]\n    },\n    \"dataHoraInicio\": {\n      \"type\": [\"string\", \"null\"]\n    },\n    \"duracaoEmMinutos\": {\n      \"type\": [\"integer\", \"null\"]\n    },\n    \"valor\": {\n      \"type\": [\"number\", \"null\"]\n    },\n    \"observacoes\": {\n      \"type\": [\"string\", \"null\"]\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"mensagem\",\n    \"encerrarConversa\",\n    \"servicoId\",\n    \"clienteId\",\n    \"profissionalId\",\n    \"dataHoraInicio\",\n    \"duracaoEmMinutos\",\n    \"valor\",\n    \"observacoes\"\n  ]\n}",
+              "strict": true
+            }
+          },
+          "reasoningEffort": "medium"
+        }
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.3,
@@ -125,7 +118,14 @@
           "cachedResultName": "gpt-4.1-2025-04-14"
         },
         "builtInTools": {},
-        "options": {}
+        "options": {
+          "textFormat": {
+            "textOptions": {
+              "type": "json_schema",
+              "schema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"mensagem\": {\n      \"type\": \"string\"\n    },\n    \"encerrarConversa\": {\n      \"type\": \"boolean\"\n    },\n    \"servicoId\": {\n      \"type\": [\"integer\", \"null\"]\n    },\n    \"clienteId\": {\n      \"type\": [\"integer\", \"null\"]\n    },\n    \"profissionalId\": {\n      \"type\": [\"integer\", \"null\"]\n    },\n    \"dataHoraInicio\": {\n      \"type\": [\"string\", \"null\"]\n    },\n    \"duracaoEmMinutos\": {\n      \"type\": [\"integer\", \"null\"]\n    },\n    \"valor\": {\n      \"type\": [\"number\", \"null\"]\n    },\n    \"observacoes\": {\n      \"type\": [\"string\", \"null\"]\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"mensagem\",\n    \"encerrarConversa\",\n    \"servicoId\",\n    \"clienteId\",\n    \"profissionalId\",\n    \"dataHoraInicio\",\n    \"duracaoEmMinutos\",\n    \"valor\",\n    \"observacoes\"\n  ]\n}\n"
+            }
+          }
+        }
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.3,
@@ -164,40 +164,14 @@
     },
     {
       "parameters": {
-        "model": {
-          "__rl": true,
-          "value": "gpt-5.1-2025-11-13",
-          "mode": "list",
-          "cachedResultName": "gpt-5.1-2025-11-13"
-        },
-        "builtInTools": {},
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
-      "typeVersion": 1.3,
-      "position": [
-        1456,
-        496
-      ],
-      "id": "a1e864ff-f4d1-4e32-be0c-820464eddbf6",
-      "name": "5.2 Fallback",
-      "credentials": {
-        "openAiApi": {
-          "id": "7sxiLKy1YCEEJUwS",
-          "name": "Flooxa CRM"
-        }
-      }
-    },
-    {
-      "parameters": {
         "schemaType": "manual",
-        "inputSchema": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"mensagem\": {\n      \"type\": \"string\"\n    },\n    \"servicoId\": {\n      \"type\": [\"integer\", \"null\"],\n      \"format\": \"int32\"\n    },\n    \"clienteId\": {\n      \"type\": [\"integer\", \"null\"],\n      \"format\": \"int32\"\n    },\n    \"profissionalId\": {\n      \"type\": [\"integer\", \"null\"],\n      \"format\": \"int32\"\n    },\n    \"dataHoraInicio\": {\n      \"type\": [\"string\", \"null\"],\n      \"format\": \"date-time\"\n    },\n    \"duracaoEmMinutos\": {\n      \"type\": [\"integer\", \"null\"],\n      \"format\": \"int32\"\n    },\n    \"valor\": {\n      \"type\": [\"number\", \"null\"],\n      \"format\": \"double\"\n    },\n    \"observacoes\": {\n      \"type\": [\"string\", \"null\"]\n    }\n  },\n  \"required\": [\n    \"mensagem\",\n    \"servicoId\",\n    \"clienteId\",\n    \"profissionalId\",\n    \"dataHoraInicio\",\n    \"duracaoEmMinutos\",\n    \"valor\",\n    \"observacoes\"\n  ]\n}",
+        "inputSchema": "={\n  \"type\": \"object\",\n  \"properties\": {\n    \"mensagem\": {\n      \"type\": \"string\"\n    },\n    \"encerrarConversa\": {\n      \"type\": \"boolean\"\n    },\n    \"servicoId\": {\n      \"type\": [\"integer\", \"null\"]\n    },\n    \"clienteId\": {\n      \"type\": [\"integer\", \"null\"]\n    },\n    \"profissionalId\": {\n      \"type\": [\"integer\", \"null\"]\n    },\n    \"dataHoraInicio\": {\n      \"type\": [\"string\", \"null\"]\n    },\n    \"duracaoEmMinutos\": {\n      \"type\": [\"integer\", \"null\"]\n    },\n    \"valor\": {\n      \"type\": [\"number\", \"null\"]\n    },\n    \"observacoes\": {\n      \"type\": [\"string\", \"null\"]\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"mensagem\",\n    \"encerrarConversa\",\n    \"servicoId\",\n    \"clienteId\",\n    \"profissionalId\",\n    \"dataHoraInicio\",\n    \"duracaoEmMinutos\",\n    \"valor\",\n    \"observacoes\"\n  ]\n}",
         "autoFix": true
       },
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.3,
       "position": [
-        1600,
+        1088,
         416
       ],
       "id": "e73b7044-dc04-4793-92b7-f46b11d169d1",
@@ -242,35 +216,12 @@
       "name": "insertMessage"
     },
     {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "b7360679-5e64-4919-b78c-909668352660",
-              "name": "output",
-              "value": "={{ $('Agendador').item.json.output.mensagem }}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        2224,
-        0
-      ],
-      "id": "822ca86d-5517-40df-9730-a5742ec0471d",
-      "name": "Output"
-    },
-    {
       "parameters": {},
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        832,
-        -336
+        -128,
+        -464
       ],
       "id": "ab3ea619-987f-4c8b-a3b1-b88339bd5d02",
       "name": "Start"
@@ -282,7 +233,7 @@
         "hasOutputParser": true,
         "needsFallback": true,
         "options": {
-          "systemMessage": "=### Tools\n\n* Disponibilidade:\nUtilize esta tool sempre que for necessário verificar a disponibilidade de um serviço em uma data específica. Antes de realizar qualquer agendamento, confirme se o horário desejado pelo cliente ainda está livre.\n\nInput: idDoServico, data.\n\n* Agendar:\nUtilize esta tool sempre que for necessário realizar o agendamento de um cliente.\nEla cria um novo agendamento com base no serviço escolhido, profissional, data e demais informações fornecidas. Deve ser chamada após a confirmação de disponibilidade do horário desejado.\n\n### Serviços\n{{\n(() => {\n  const raw = $('getServicos').item.json.getServicos\n  // Garante array\n  const data = Array.isArray(raw)\n    ? raw\n    : JSON.parse(\n        raw.replace(/^### Serviços\\s*/g, '')\n      )\n  // Remove campos indesejados\n  const cleaned = data.map(({ visivelParaCliente, categoria, ...rest }) => rest)\n  // Retorna como string\n  return JSON.stringify(cleaned, null, 2)\n})()\n}}\n\n### Profissionais\n\n{{\n(() => {\n  const raw = $('getProfissionais').item.json.getProfissionais\n  // Garante array\n  const data = Array.isArray(raw)\n    ? raw\n    : JSON.parse(\n        raw.replace(/^### Profissionais\\s*/g, '')\n      )\n  // Remove campos indesejados\n  const cleaned = data.map(({ nome, cpf, ...rest }) => rest)\n  // Retorna como string\n  return JSON.stringify(cleaned, null, 2)\n})()\n}}\n\n### Cliente\n\n{{\n(() => {\n  const cliente = $json.Cliente\n  let result = null\n  // Caso 1: Cliente direto\n  if (cliente?.id) {\n    result = {\n      id: cliente.id,\n      nome: cliente.nome\n    }\n  }\n  // Caso 2: Cliente paginado\n  else if (Array.isArray(cliente?.data) && cliente.data.length > 0) {\n    result = {\n      id: cliente.data[0].id,\n      nome: cliente.data[0].nome\n    }\n  }\n  // Retorna como STRING (evita [object Object])\n  return JSON.stringify(result, null, 2)\n})()\n}}\n\n### Dados do sistema\nData/Hora Atual: {{ $now.setLocale('pt-BR').setZone('America/Sao_Paulo').toFormat(\"cccc, dd/LL/yyyy HH:mm\") }}"
+          "systemMessage": "=### Objetivo\n\nVocê é a Pérola, a assistente virtual de agendamentos da AllPé, sempre pronta para ajudar com simpatia, eficiência e cuidado. Seu objetivo é conduzir o cliente desde a escolha do serviço até a confirmação do agendamento, preenchendo o Output JSON.\n\n---\n\n### Exemplo de Output:\n\n{\n  \"mensagem\": \"(Mensagem em linguagem natural para o cliente)\",\n  \"encerrarConversa\": \"(boolean → só deve ser true quando o cliente demonstrar explicitamente que deseja encerrar a conversa, ex: 'obrigado', 'valeu', 'tchau')\",\n  \"servicoId\": \"(ID numérico do serviço ou null)\",\n  \"clienteId\": \"(ID numérico do cliente ou null)\",\n  \"profissionalId\": \"(ID numérico do profissional ou null)\",\n  \"dataHoraInicio\": \"(Data e hora em ISO 8601 ou null)\",\n  \"duracaoEmMinutos\": \"(Duração em minutos ou null)\",\n  \"valor\": \"(Valor final ou null)\",\n  \"observacoes\": \"(Campo exclusivo para observações sobre o agendamento, caso não tenha use 'Sem observações')\"\n}\n\n---\n\n### Regras Importantes\n\n1. **Identificação:** Use os dados abaixo para encontrar os IDs de Serviço, Profissional e Cliente.\n2. **Disponibilidade:** NUNCA afirme que um horário está livre sem antes consultar a tool `Disponibilidade`.\n3. **Proatividade:** Se o cliente pedir um período (ex: \"amanhã de manhã\"), consulte a disponibilidade e ofereça as opções retornadas.\n4. **Agendamento:** Só chame a tool `Agendar` quando o cliente confirmar explicitamente (Ex: \"Pode marcar\").\n5. Nunca listar serviços sem ser solicitado.\n6. Sempre tentar seguir os exemplos de diálogos.\n7. Faça somente uma pergunta por vez.\n8. Você não cancela e nem reagenda agendamentos, essas são tarefas direcionadas ao suporte.\n\n---\n\n### Tools\n\n* Disponibilidade:\nUtilize esta tool sempre que o cliente sugerir uma data ou período. Ela retorna os horários livres. Input: data (YYYY-MM-DD), servicoDuracao (em minutos).\n\n* Agendar:\nUtilize esta tool APENAS após o cliente confirmar o agendamento. Input: servicoId (Integer), clienteId (Integer), profissionalId (Integer), dataHoraInicio (ISO String: YYYY-MM-DDTHH:mm:ss), duracaoEmMinutos (Integer), valor (Number), observacoes (String - caso não haja, envie \"Sem observações\")\n\n* Suporte: Acione esta ferramenta quando o cliente solicitar ajuda diretamente ou quando você identificar um erro/problema que não consiga resolver por conta própria. Input: Um resumo claro e objetivo do problema do cliente, incluindo contexto, passos já tentados e mensagens de erro (se houver).\n\n---\n\n### Sobre a Empresa\n\nNome: All Pé\nEndereço: Av. Principal, 123, Centro - Cidade/UF\nHorário de Funcionamento: Segunda a Sexta das 08:00 às 18:00, Sábados das 08:00 às 12:00.\nInstagram: @podologiaallpe\nTelefone/WhatsApp: (11) 99999-9999\n\n---\n\n### Serviços\n\n{{\n(() => {\n  const raw = $('getServicos').first().json.getServicos\n  // Garante array\n  const data = Array.isArray(raw)\n    ? raw\n    : JSON.parse(\n        raw.replace(/^### Serviços\\s*/g, '')\n      )\n  // Remove campos indesejados\n  const cleaned = data.map(({ visivelParaCliente, categoria, ...rest }) => rest)\n  // Retorna como string\n  return JSON.stringify(cleaned, null, 2)\n})()\n}}\n\n---\n\n### Profissionais\n\n{{\n(() => {\n  const raw = $('getProfissionais').first().json.getProfissionais\n  // Garante array\n  const data = Array.isArray(raw)\n    ? raw\n    : JSON.parse(\n        raw.replace(/^### Profissionais\\s*/g, '')\n      )\n  // Remove campos indesejados\n  const cleaned = data.map(({ nome, cpf, ...rest }) => rest)\n  // Retorna como string\n  return JSON.stringify(cleaned, null, 2)\n})()\n}}\n\n---\n\n# Cliente e dependentes\n\n{{\n(() => {\n  const clientes = $('getCliente').first().json.clientes;\n  \n  // Se não houver clientes, retornar estrutura vazia\n  if (!Array.isArray(clientes) || clientes.length === 0) {\n    return JSON.stringify({\n      principal: null,\n      dependentes: []\n    }, null, 2);\n  }\n  \n  // Ordenar por total de agendamentos (maior primeiro)\n  const clientesOrdenados = [...clientes].sort((a, b) => b.totalAgendamentos - a.totalAgendamentos);\n  \n  // O primeiro é o principal\n  const principal = clientesOrdenados[0];\n  \n  // Os demais são dependentes\n  const dependentes = clientesOrdenados.slice(1);\n  \n  // Estrutura final\n  const resultado = {\n    principal: {\n      id: principal.id,\n      nome: principal.nome,\n      observacoes: principal.observacoes\n    },\n    dependentes: dependentes.map(cliente => ({\n      id: cliente.id,\n      nome: cliente.nome,\n      observacoes: cliente.observacoes\n    }))\n  };\n  \n  return JSON.stringify(resultado, null, 2);\n})()\n}}\n---\n\n### Exemplo do Diálogo (Agendamento)\n\n**Cliente:** \"Oi, quero cortar o cabelo com a [NOME DO CLIENTE] amanhã de manhã.\"\n*Ação:** Call tool `Disponibilidade({ \"servicoDuracao\": 30, \"data\": \"2026-01-06\" })`\nSystem: `{ \"horariosLivres\": [\"08:00\", \"09:30\", \"10:00\", \"14:00\", \"16:00\"] }`\n**IA:** \"Olá [NOME DO CLIENTE]! Amanhã de manhã com a [NOME DO CLIENTE] temos horários às 08:00, 09:30 e 10:00. Qual você prefere?\"\n\n**Cliente:** \"Pode ser às 09:30.\"\n**IA:** \"Combinado. Fica às 09:30 e o valor é R$ 50,00. Posso confirmar o agendamento?\"\n\n**Cliente:** \"Sim, pode marcar.\"\n*Ação:** Call tool `Agendar({ \"servicoId\": 1, \"clienteId\": 50, \"profissionalId\": 99, \"dataHoraInicio\": \"2026-01-06T09:30:00\", \"duracaoEmMinutos\": 30, \"valor\": 50.00, \"observacoes\": \"Agendado via IA\" })`\nSystem: `[ { \"Status\": \"Agendamento realizado com sucesso.\" } ]`\n**IA:** \"Prontinho! Seu corte está agendado para amanhã às 09:30. Te esperamos lá!\"\n\n---\n\n### Exemplo do Diálogo (Agendamento com Negociação)\n\n**Cliente:** \"Bom dia, gostaria de fazer a unha.\"\n**IA:** \"Bom dia, [NOME DO CLIENTE]! Claro. Você tem preferência por alguma profissional ou pode ser com qualquer uma?\"\n\n**Cliente:** \"Pode ser com a [NOME DO CLIENTE]. Queria para sexta agora, no final da tarde.\"\n*Ação:** Call tool `Disponibilidade({ \"servicoDuracao\": 45, \"data\": \"2026-05-22\" })`\nSystem: `{ \"horariosLivres\": [\"09:00\", \"10:00\", \"14:00\", \"15:00\"] }`\n**IA:** \"Dei uma olhada na agenda da [NOME DO CLIENTE] para sexta-feira e ela já está lotada no final da tarde. O último horário livre dela é às 15:00. Esse horário funciona para você ou prefere ver no sábado?\"\n\n**Cliente:** \"Ih, 15h é muito cedo. Vê no sábado de manhã então.\"\n*Ação:** Call tool `Disponibilidade({ \"servicoDuracao\": 45, \"data\": \"2026-05-23\" })`\nSystem: `{ \"horariosLivres\": [\"08:30\", \"10:00\", \"11:30\"] }`\n**IA:** \"No sábado de manhã a [NOME DO CLIENTE] tem vaga! Temos às 08:30, 10:00 e 11:30. Qual fica melhor?\"\n\n**Cliente:** \"Vou querer as 10:00.\"\n**IA:** \"Perfeito. Manicure com a [NOME DO CLIENTE], sábado (23/05) às 10:00. O valor é R$ 40,00. Posso deixar agendado?\"\n\n**Cliente:** \"Pode sim, obrigada.\"\n*Ação:** Call tool `Agendar({ \"servicoId\": 2, \"clienteId\": 105, \"profissionalId\": 80, \"dataHoraInicio\": \"2026-05-23T10:00:00\", \"duracaoEmMinutos\": 45, \"valor\": 40.00, \"observacoes\": \"Sem observações\" })`\nSystem: `[ { \"Status\": \"Agendamento realizado com sucesso.\" } ]`\n**IA:** \"Agendamento confirmado para sábado às 10:00! Muito obrigado e até lá.\"\n\n---\n\n### Exemplo do Diálogo (Agendamento Guiado)\n\n**Cliente:** \"Oi\"\n**IA:** \"Oi! 😊 Eu sou a assistente virtual da [NOME DO SALÃO]. Posso te ajudar a agendar um horário, tirar dúvidas ou ver valores. O que você gostaria de fazer hoje?\"\n\n**Cliente:** \"Quero marcar um horário.\"\n**IA:** \"Perfeito! 💇‍♀️ Qual serviço você gostaria de agendar?\"\n\n**Cliente:** \"Podologia Allpé.\"\n\n**IA:** \"Ótima escolha! Você tem preferência por algum profissional ou pode ser com qualquer um disponível?\"\n\n**Cliente:** \"Pode ser com a [NOME DO PROFISSIONAL]. Queria ainda hoje à tarde.\"\n\n*Ação:** Call tool `Disponibilidade({ \"servicoDuracao\": 30, \"data\": \"2026-01-06\" })`\nSystem: `{ \"horariosLivres\": [\"13:00\", \"15:00\", \"17:30\"] }`\n\n**IA:** \"Verifiquei aqui 😊 Hoje à tarde com a [NOME DO PROFISSIONAL] temos horários às **13:00**, **15:00** e **17:30**. Qual deles fica melhor pra você?\"\n\n**Cliente:** \"Pode ser às 15:00.\"\n\n**IA:** \"Perfeito! Podologia Allpé hoje às **15:00** com a [NOME DO PROFISSIONAL]. O valor do serviço é **R$ 50,00**. Posso confirmar o agendamento?\"\n\n**Cliente:** \"Pode sim.\"\n\n*Ação:** Call tool `Agendar({  \n  \"servicoId\": 1,  \n  \"clienteId\": 77,  \n  \"profissionalId\": 45,  \n  \"dataHoraInicio\": \"2026-01-06T15:00:00\",  \n  \"duracaoEmMinutos\": 30,  \n  \"valor\": 50.00,  \n  \"observacoes\": \"Agendado via assistente virtual\"  \n})`\nSystem: `[ { \"Status\": \"Agendamento realizado com sucesso.\" } ]`\n\n**IA:** \"Tudo certo! ✅ Seu corte está agendado para hoje às **15:00**. Qualquer coisa é só me chamar. Te esperamos! ✨\"\n\n---\n\n### Exemplo do Diálogo (Agendamento Guiado para Terceiro)\n\nCliente: \"Oi\"\n\nIA: \"Oi! 😊 Eu sou a assistente virtual da [NOME DO SALÃO]. Posso te ajudar a agendar um horário, tirar dúvidas ou ver valores. O que você gostaria de fazer hoje?\"\n\nCliente: \"Quero marcar um horário pra minha mãe.\"\n\nIA: \"Perfeito 😊 Qual é o nome completo dela?\"\n\nCliente: \"Maria Aparecida.\"\n\nAção (interna): Verificar se o cliente já existe pelo nome informado.\n\n* Se existir → seguir para Fluxo 1.2 (Agendamento) usando o clienteId existente.\n* Se não existir → seguir para Fluxo 2.2 (Cadastro do Terceiro).\n\n\n### Fluxo 2.2 — Cadastro do Terceiro (quando não existe)\n\nIA: \"Ela possui telefone próprio?\"\n\nCliente: \"Não, ela não tem.\"\n\nAção (interna): Utilizar automaticamente o telefone do contato atual (número de quem está falando com a IA, disponível no prompt) como telefone do terceiro.\n\nIA: \"Existe alguma observação importante sobre o atendimento? Se não tiver, pode dizer 'não'.\"\n\nCliente: \"Não.\"\n\nAção: Call tool cadastrarNovoCliente\n\nSystem: { \"clienteId\": 143 }\n\n\n### Fluxo 1.2 — Agendamento\n\nIA: \"Qual serviço você gostaria de marcar para ela?\"\n\nCliente: \"Podologia Allpé.\"\n\nIA: \"Você tem preferência por algum profissional ou pode ser qualquer um disponível?\"\n\nCliente: \"Pode ser qualquer um. Queria amanhã à tarde.\"\n\nAção: Call tool Disponibilidade({ \"servicoDuracao\": 30, \"data\": \"2026-01-06\" })\n\nSystem: { \"horariosLivres\": [\"13:00\", \"15:00\", \"17:30\"] }\n\nIA: \"Amanhã à tarde temos horários às 13:00, 15:00 e 17:30. Qual fica melhor pra você?\"\n\nCliente: \"Pode ser às 15:00.\"\n\nIA: \"Perfeito 😊 Então ficou assim: Podologia Allpé amanhã às 15:00 para a Maria Aparecida. O valor do serviço é R$ 50,00. Posso confirmar o agendamento?\"\n\nCliente: \"Pode sim.\"\n\nAção: Call tool Agendar({ \"servicoId\": 1, \"clienteId\": 143, \"profissionalId\": 45, \"dataHoraInicio\": \"2026-01-06T15:00:00\", \"duracaoEmMinutos\": 30, \"valor\": 50.00, \"observacoes\": \"Agendamento para terceiro via assistente virtual\" })\n\nSystem: [ { \"Status\": \"Agendamento realizado com sucesso.\" } ]\n\nIA: \"Tudo certo! ✅ O atendimento da Maria Aparecida está confirmado para amanhã às 15:00. Qualquer coisa é só me chamar 😊\"\n\n---\n\n### Exemplos de Diálogo (Cancelamento e Reagendamento)\n\n**Reagendamento**\n*Cliente:* \"Oi, preciso mudar meu horário de amanhã para sábado.\"\n*Ação:* Call `Suporte({ \"problema\": \"Cliente solicita reagendamento de horário.\" })`\n*IA:* \"Compreendo. Para alterações de horário, vou transferir sua solicitação para nossa equipe de atendimento. Eles entrarão em contato em breve para verificar a nova data.\"\n\n**Cancelamento**\n*Cliente:* \"Quero cancelar minha unha de hoje.\"\n*Ação:* Call `Suporte({ \"problema\": \"Cliente solicita cancelamento.\" })`\n*IA:* \"Entendido. Encaminhei seu pedido de cancelamento para nossa recepção confirmar. Obrigado por avisar!\"\n\n---\n\n### Regra Especial – Agendamento para Terceiros\n\n- Quando o cliente informar que o agendamento é para **outra pessoa** (terceiro), você deve:\n  1. Perguntar o **nome do terceiro**.\n  2. Verificar na lista em **### Cliente** se já existe um cliente com esse nome.\n  3. Se o terceiro **já existir**, usar o `clienteId` correspondente para o agendamento.\n  4. Se o terceiro **não existir**, utilizar a tool de **criação de cliente** antes de agendar.\n- Nunca criar um novo cliente se já existir um cliente correspondente na lista retornada pelo sistema.\n\n---\n\n### Dados do sistema\nData/Hora Atual: {{ $now.setLocale('pt-BR').setZone('America/Sao_Paulo').toFormat(\"cccc, dd/LL/yyyy HH:mm\") }}"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -296,28 +247,14 @@
     },
     {
       "parameters": {
-        "mode": "delete",
-        "deleteMode": "all"
-      },
-      "type": "@n8n/n8n-nodes-langchain.memoryManager",
-      "typeVersion": 1.1,
-      "position": [
-        1072,
-        -336
-      ],
-      "id": "1ffc333f-3ec7-4a54-8f2f-5edd7b702e91",
-      "name": "ADM Memory"
-    },
-    {
-      "parameters": {
         "sessionIdType": "customKey",
-        "sessionKey": "=Trinks557481402176"
+        "sessionKey": "=Trinks5574981402176"
       },
       "type": "@n8n/n8n-nodes-langchain.memoryRedisChat",
       "typeVersion": 1.5,
       "position": [
-        1072,
-        -160
+        112,
+        -288
       ],
       "id": "40d3e987-513c-424a-9f26-5b1d6bc231fa",
       "name": "Memory ADM",
@@ -352,7 +289,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        352,
+        112,
         0
       ],
       "id": "f789270a-6a96-43ba-826c-393b9dee2183",
@@ -382,7 +319,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        592,
+        352,
         0
       ],
       "id": "07ea07c6-b39a-4342-b10b-0e6fa8e55c00",
@@ -606,11 +543,485 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        832,
+        592,
         0
       ],
       "id": "4c0d3256-5401-45e4-a568-42c3d3da9214",
       "name": "getCliente"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -608,
+        0
+      ],
+      "id": "0d200c3e-9f8e-4f14-9c43-28d203980c94",
+      "name": "Chat",
+      "webhookId": "8ebfe16e-0814-40a1-bdab-40938b0aa08a"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryManager",
+      "typeVersion": 1.1,
+      "position": [
+        112,
+        -464
+      ],
+      "id": "1ffc333f-3ec7-4a54-8f2f-5edd7b702e91",
+      "name": "getMemory"
+    },
+    {
+      "parameters": {
+        "mode": "delete",
+        "deleteMode": "all"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryManager",
+      "typeVersion": 1.1,
+      "position": [
+        480,
+        -464
+      ],
+      "id": "cce1cab5-6f5f-43f2-a154-569cff244410",
+      "name": "delMemory"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4.1-2025-04-14",
+          "mode": "list",
+          "cachedResultName": "gpt-4.1-2025-04-14"
+        },
+        "builtInTools": {},
+        "options": {
+          "textFormat": {
+            "textOptions": {
+              "type": "json_schema",
+              "schema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"mensagem\": {\n      \"type\": \"string\"\n    },\n    \"encerrarConversa\": {\n      \"type\": \"boolean\"\n    },\n    \"servicoId\": {\n      \"type\": [\"integer\", \"null\"]\n    },\n    \"clienteId\": {\n      \"type\": [\"integer\", \"null\"]\n    },\n    \"profissionalId\": {\n      \"type\": [\"integer\", \"null\"]\n    },\n    \"dataHoraInicio\": {\n      \"type\": [\"string\", \"null\"]\n    },\n    \"duracaoEmMinutos\": {\n      \"type\": [\"integer\", \"null\"]\n    },\n    \"valor\": {\n      \"type\": [\"number\", \"null\"]\n    },\n    \"observacoes\": {\n      \"type\": [\"string\", \"null\"]\n    }\n  },\n  \"additionalProperties\": false,\n  \"required\": [\n    \"mensagem\",\n    \"encerrarConversa\",\n    \"servicoId\",\n    \"clienteId\",\n    \"profissionalId\",\n    \"dataHoraInicio\",\n    \"duracaoEmMinutos\",\n    \"valor\",\n    \"observacoes\"\n  ]\n}"
+            }
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        1456,
+        496
+      ],
+      "id": "faea50e3-4994-47f8-9720-8d8bc35f6f76",
+      "name": "4.1 Fallback",
+      "credentials": {
+        "openAiApi": {
+          "id": "7sxiLKy1YCEEJUwS",
+          "name": "Flooxa CRM"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Utilize esta tool para atualizar exclusivamente as observações do cliente.\nExemplos de uso incluem registrar preferências, anotações internas ou informações relevantes para atendimentos futuros.",
+        "workflowId": {
+          "__rl": true,
+          "value": "JTnDI7mXE4qaOIB2",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/JTnDI7mXE4qaOIB2",
+          "cachedResultName": "[TOOL] - editaCliente"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "observacoes": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('observacoes', `Campo destinado a observações relevantes sobre o cliente. Utilize para registrar informações importantes quando necessário, como preferências, contexto específico ou anotações úteis para atendimentos futuros.`, 'string') }}",
+            "estabelecimentoId": "={{ $('MudeAqui').item.json.estabelecimentoId }}",
+            "clienteId": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('clienteId', `Identificador único do cliente que será atualizado. Este campo é obrigatório para garantir que as informações sejam alteradas no cadastro correto.`, 'string') }}",
+            "whatsapp": "={{ \n(() => {\n  const num = $('Merge').item.json.Cliente.Whatsapp\n  // remove DDI (2) + DDD (2)\n  let telefone = num.slice(4)\n  // se tiver 9 dígitos e começar com 9, remove o 9\n  if (telefone.length === 9 && telefone.startsWith('9')) {\n    telefone = telefone.slice(1)\n  }\n  return telefone\n})()\n}}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "estabelecimentoId",
+              "displayName": "estabelecimentoId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "observacoes",
+              "displayName": "observacoes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "clienteId",
+              "displayName": "clienteId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "whatsapp",
+              "displayName": "whatsapp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        1600,
+        416
+      ],
+      "id": "870cb4e9-ca50-4d93-9d89-7ef77632d24b",
+      "name": "editaCliente"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6941910f-9995-4bd5-82a4-827df6ccbb24",
+              "name": "estabelecimentoId",
+              "value": "146044",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        832,
+        0
+      ],
+      "id": "28ff29c6-0600-48ca-9d88-83eacbfebcfd",
+      "name": "MudeAqui"
+    },
+    {
+      "parameters": {
+        "description": "Utilize esta tool **somente para cadastrar um novo cliente na Trinks quando o agendamento for para um terceiro que ainda NÃO existe no sistema**.\n\nEsta tool deve ser usada nos seguintes casos:\n\n* O cliente informa que o agendamento é para **outra pessoa** (terceiro).\n* O nome do terceiro **não foi encontrado** na lista de clientes retornada em **### Cliente**.\n\nRegras importantes:\n\n* **Nunca utilize esta tool** se o terceiro já existir na base de clientes.\n* Se o terceiro já estiver cadastrado, utilize o `clienteId` existente para o agendamento.\n\nApós a criação do cliente, utilize o `clienteId` retornado para realizar o agendamento.",
+        "workflowId": {
+          "__rl": true,
+          "value": "kembDVuYwVFM8opn",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/kembDVuYwVFM8opn",
+          "cachedResultName": "[TOOL] - cadastrarTerceiro"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "estabelecimentoId": "={{ $('MudeAqui').item.json.estabelecimentoId }}",
+            "Dados": "={\n  \"telefones\": [\n    {\n      \"ddi\": \"{{ $('Merge').item.json.Cliente.Whatsapp.slice(0, 2) }}\",\n      \"ddd\": \"{{ $('Merge').item.json.Cliente.Whatsapp.slice(2, 4) }}\",\n      \"tipoId\": \"6\",\n      \"numero\": \"{{ (() => { const num = $('Merge').item.json.Cliente.Whatsapp; let telefone = num.slice(4); if (telefone.length === 9 && telefone.startsWith('9')) { telefone = telefone.slice(1); } return telefone; })() }}\"\n    },\n    {\n      \"ddi\": \"{{ $fromAI('DDITerceiro', 'DDI do telefone do terceiro', 'string') }}\",\n      \"ddd\": \"{{ $fromAI('DDDTerceiro', 'DDD do telefone do terceiro', 'string') }}\",\n      \"tipoId\": \"6\",\n      \"numero\": \"{{ $fromAI('NumeroTerceiro', 'Número do telefone do terceiro, sem DDI e sem DDD (somente números)', 'string') }}\"\n    }\n  ],\n  \"nome\": \"{{ $fromAI('NomeTerceiro', 'Nome da pessoa para quem será feito o agendamento', 'string') }}\",\n  \"genero\": \"x\",\n  \"observacoes\": \"Agendamento solicitado por {{ $('Merge').item.json.Cliente.Whatsapp }}. {{ $fromAI('ObservacoesTerceiro', 'Observações sobre o terceiro', 'string') }}\"\n}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "estabelecimentoId",
+              "displayName": "estabelecimentoId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "Dados",
+              "displayName": "Dados",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        1712,
+        304
+      ],
+      "id": "ca2126ae-63fd-4c31-815c-dfe5a1b1235f",
+      "name": "cadastrarTerceiro"
+    },
+    {
+      "parameters": {
+        "method": "DELETE",
+        "url": "https://api.trinks.com/v1/clientes/81074095",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "accept",
+              "value": "application/json"
+            },
+            {
+              "name": "estabelecimentoId",
+              "value": "146044"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1504,
+        -656
+      ],
+      "id": "dd995b3b-6fc4-494e-8714-793763dfabd4",
+      "name": "DeletaCliente",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "fKu8wjWP4nA59r2o",
+          "name": "[CURSO] - Trinks"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "description": "Use essa tool quando não conseguir resolver o problema do cliente ou ele solicitar falar com o suporte.",
+        "workflowId": {
+          "__rl": true,
+          "value": "3v7dEyPOASj9kG2o",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/3v7dEyPOASj9kG2o",
+          "cachedResultName": "[TOOL] - callSuporteTrinks"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "É um teste?": true,
+            "empresa": "={{ $('Merge').item.json.Empresa }}",
+            "cliente": "={{ $('Merge').item.json.Cliente }}",
+            "resumo": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('resumo', `Resumo detalhado do problema ou duvida do cliente.`, 'string') }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "empresa",
+              "displayName": "empresa",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "cliente",
+              "displayName": "cliente",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "resumo",
+              "displayName": "resumo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "É um teste?",
+              "displayName": "É um teste?",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "boolean",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        624,
+        304
+      ],
+      "id": "ebd98f58-dc41-401c-a42f-747add6361e5",
+      "name": "callSuporte"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "16615e17-2b2f-48fc-a893-aa6a27e05c10",
+              "leftValue": "={{ $('Agendador').first().json.output.encerrarConversa }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2224,
+        0
+      ],
+      "id": "6e3ebe29-d938-4c99-9487-86e1835bb614",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "incr",
+        "key": "=fim:{{ $('Merge').first().json.Empresa.session + $('Merge').first().json.Cliente.Whatsapp }}",
+        "expire": true,
+        "ttl": 600
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        2464,
+        -128
+      ],
+      "id": "57972c4d-c958-45c6-a7c7-1f712c337ce7",
+      "name": "Redis",
+      "credentials": {
+        "redis": {
+          "id": "PcR6h7cpTpsMigtm",
+          "name": "[REDIS CHAT] - FlowMidas"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "69f65eb6-631f-47be-870f-d4a7fdb62329",
+              "name": "output",
+              "value": "={{ $('Agendador').first().json.output.mensagem }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2704,
+        0
+      ],
+      "id": "aec64f6f-55f3-448a-a626-7c7cc4a22b30",
+      "name": "output"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5e3ba4de-daed-4b9a-ad9c-f4a3b91efdf0",
+              "name": "output",
+              "value": "={{ $('Agendador').item.json.output.mensagem }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2464,
+        128
+      ],
+      "id": "5b48c9be-771f-4ef4-b476-060e4a2f13f9",
+      "name": "Output"
+    },
+    {
+      "parameters": {
+        "content": "{\n  \"mensagem\": \"Perfeito 😊 Vou agendar os dois serviços.\",\n  \"encerrarConversa\": false,\n  \"agendamentos\": [\n    {\n      \"servicoId\": [13123, 123123],\n      \"clienteId\": [98, 98],\n      \"profissionalId\": [4, 4],\n      \"dataHoraInicio\": [\n        \"2026-01-20T14:00:00\",\n        \"2026-01-20T14:40:00\"\n      ],\n      \"duracaoEmMinutos\": [40, 30],\n      \"valor\": [60, 40],\n      \"observacoes\": [\"Corte adulto\", \"Barba\"]\n    }\n  ]\n}\n"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        112,
+        240
+      ],
+      "id": "4ae70d2b-2ba7-4ef7-8d60-157ce50a63f9",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "=fim:Dubbo5574981402176"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        2464,
+        -304
+      ],
+      "id": "09012742-e2f0-4cf0-824f-50ac93563fed",
+      "name": "Redis1",
+      "credentials": {
+        "redis": {
+          "id": "PcR6h7cpTpsMigtm",
+          "name": "[REDIS CHAT] - FlowMidas"
+        }
+      }
     }
   ],
   "pinData": {
@@ -659,17 +1070,6 @@
             "node": "Merge",
             "type": "main",
             "index": 1
-          }
-        ]
-      ]
-    },
-    "Chat": {
-      "main": [
-        [
-          {
-            "node": "Mock",
-            "type": "main",
-            "index": 0
           }
         ]
       ]
@@ -739,17 +1139,6 @@
         ]
       ]
     },
-    "5.2 Fallback": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "Output Parser",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Output Parser": {
       "ai_outputParser": [
         [
@@ -776,7 +1165,7 @@
       "main": [
         [
           {
-            "node": "Output",
+            "node": "If",
             "type": "main",
             "index": 0
           }
@@ -787,7 +1176,7 @@
       "main": [
         [
           {
-            "node": "ADM Memory",
+            "node": "getMemory",
             "type": "main",
             "index": 0
           }
@@ -809,7 +1198,12 @@
       "ai_memory": [
         [
           {
-            "node": "ADM Memory",
+            "node": "getMemory",
+            "type": "ai_memory",
+            "index": 0
+          },
+          {
+            "node": "delMemory",
             "type": "ai_memory",
             "index": 0
           }
@@ -864,7 +1258,113 @@
       "main": [
         [
           {
+            "node": "MudeAqui",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chat": {
+      "main": [
+        [
+          {
+            "node": "Mock",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getMemory": {
+      "main": [
+        [
+          {
+            "node": "delMemory",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "4.1 Fallback": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Output Parser",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "editaCliente": {
+      "ai_tool": [
+        [
+          {
             "node": "Agendador",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MudeAqui": {
+      "main": [
+        [
+          {
+            "node": "Agendador",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "cadastrarTerceiro": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agendador",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "callSuporte": {
+      "ai_tool": [
+        [
+          {
+            "node": "Agendador",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Redis",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis": {
+      "main": [
+        [
+          {
+            "node": "output",
             "type": "main",
             "index": 0
           }
@@ -872,12 +1372,12 @@
       ]
     }
   },
-  "active": false,
+  "active": true,
   "settings": {
     "executionOrder": "v1",
     "availableInMCP": false
   },
-  "versionId": "1d256754-bb36-4ca1-bdbb-2c4bd44daf85",
+  "versionId": "e26fb843-eb88-4be4-8893-70ec0a92b740",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "d47decf17b971c33cf7b5dec9572b981142fa85c3d30a8a0eb41b58fe2f3b048"

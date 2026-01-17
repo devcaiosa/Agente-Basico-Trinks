@@ -55,7 +55,7 @@
             {
               "id": "e99cd58b-7d6f-4851-9a71-8e1121878d96",
               "name": "getProfissionais",
-              "value": "={{ JSON.parse($('getRedis').item.json.getProfissionais ) }}",
+              "value": "={{ JSON.parse($('getRedis').item.json.getProfissionais).map(({ cpf, ...rest }) => rest) }}",
               "type": "array"
             }
           ]
@@ -268,7 +268,7 @@
     "executionOrder": "v1",
     "availableInMCP": false
   },
-  "versionId": "da601589-bb69-4131-93b9-4a33e02db115",
+  "versionId": "f2334ca1-eb45-4737-9616-aa45c548e37c",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "d47decf17b971c33cf7b5dec9572b981142fa85c3d30a8a0eb41b58fe2f3b048"

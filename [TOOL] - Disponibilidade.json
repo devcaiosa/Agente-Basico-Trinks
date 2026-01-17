@@ -143,7 +143,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Pegar a data atual\nconst currentDateData = $('Date & Time').first().json.currentDate;\nconst currentDate = new Date(currentDateData);\n\n// Extrair hora do Brasil do timestamp (formato: 2025-12-29T22:18:09.795-03:00)\nconst horaBrasil = parseInt(currentDateData.split('T')[1].split(':')[0]);\nconst minutoBrasil = parseInt(currentDateData.split('T')[1].split(':')[1]);\n\n// Pegar a data da busca\nconst dataBusca = $('start').first().json.Data;\nconst dataBuscaObj = new Date(dataBusca);\n\n// Pegar os dados de disponibilidade\nconst disponibilidadeData = $('getDisponibilidade').first().json.data;\n\n// Função para converter horário string para minutos (ex: \"08:00\" -> 480)\nfunction horarioParaMinutos(horario) {\n  const [horas, minutos] = horario.split(':').map(Number);\n  return horas * 60 + minutos;\n}\n\n// Obter horário atual em minutos\nconst horaAtualMinutos = horaBrasil * 60 + minutoBrasil;\n\n// Verificar se a data da busca é hoje\nfunction isMesmoDia(data1, data2) {\n  return data1.getFullYear() === data2.getFullYear() &&\n         data1.getMonth() === data2.getMonth() &&\n         data1.getDate() === data2.getDate();\n}\n\nconst ehHoje = isMesmoDia(currentDate, dataBuscaObj);\n\n// Filtrar horários vagos\nconst dadosFiltrados = disponibilidadeData.map(profissional => {\n  let horariosFiltrados = [...profissional.horariosVagos];\n  \n  if (ehHoje) {\n    // Filtrar apenas horários futuros\n    horariosFiltrados = profissional.horariosVagos.filter(horario => {\n      const horarioMinutos = horarioParaMinutos(horario);\n      return horarioMinutos > horaAtualMinutos;\n    });\n  }\n  \n  return {\n    id: profissional.id,\n    nome: profissional.nome,\n    horariosVagos: horariosFiltrados\n  };\n});\n\n// Retornar os dados no formato solicitado\nreturn {\n  data: dataBusca,\n  disponibilidade: dadosFiltrados\n};"
+        "jsCode": "// Pegar a data atual\nconst currentDateData = $('Date & Time').first().json.currentDate;\nconst currentDate = new Date(currentDateData);\n\n// CORREÇÃO: Converter para o fuso horário do Brasil\n// O timestamp vem em UTC, precisamos ajustar para -03:00 (horário de Brasília)\nconst offsetBrasil = -3; // UTC-3\nconst currentDateBrasil = new Date(currentDate.getTime() + (offsetBrasil * 60 * 60 * 1000));\n\n// Extrair hora do Brasil corretamente\nconst horaBrasil = currentDateBrasil.getUTCHours();\nconst minutoBrasil = currentDateBrasil.getUTCMinutes();\n\n// Pegar a data da busca\nconst dataBusca = $('start').first().json.Data;\nconst dataBuscaObj = new Date(dataBusca + 'T00:00:00-03:00'); // Adicionar timezone do Brasil\n\n// Pegar os dados de disponibilidade\nconst disponibilidadeData = $('getDisponibilidade').first().json.data;\n\n// Função para converter horário string para minutos\nfunction horarioParaMinutos(horario) {\n  const [horas, minutos] = horario.split(':').map(Number);\n  return horas * 60 + minutos;\n}\n\n// Obter horário atual em minutos\nconst horaAtualMinutos = horaBrasil * 60 + minutoBrasil;\n\n// Verificar se a data da busca é hoje (comparando em horário do Brasil)\nfunction isMesmoDia(data1, data2) {\n  return data1.getUTCFullYear() === data2.getUTCFullYear() &&\n         data1.getUTCMonth() === data2.getUTCMonth() &&\n         data1.getUTCDate() === data2.getUTCDate();\n}\n\nconst ehHoje = isMesmoDia(currentDateBrasil, dataBuscaObj);\n\n// Filtrar horários vagos\nconst dadosFiltrados = disponibilidadeData.map(profissional => {\n  let horariosFiltrados = [...profissional.horariosVagos];\n  \n  if (ehHoje) {\n    // Filtrar apenas horários futuros\n    horariosFiltrados = profissional.horariosVagos.filter(horario => {\n      const horarioMinutos = horarioParaMinutos(horario);\n      return horarioMinutos > horaAtualMinutos;\n    });\n  }\n  \n  return {\n    id: profissional.id,\n    nome: profissional.nome,\n    horariosVagos: horariosFiltrados\n  };\n});\n\n// Retornar os dados no formato solicitado\nreturn {\n  data: dataBusca,\n  disponibilidade: dadosFiltrados\n};"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -182,8 +182,11 @@
     "start": [
       {
         "json": {
-          "Data": "2026-01-08",
-          "servicoDuracao": 60
+          "Data": "2026-01-06",
+          "servicoDuracao": 10
+        },
+        "pairedItem": {
+          "item": 0
         }
       }
     ]
@@ -253,7 +256,7 @@
     "executionOrder": "v1",
     "availableInMCP": false
   },
-  "versionId": "b0afe002-6513-494a-a5f2-7324a32ac12c",
+  "versionId": "d4318215-d49f-4da7-8fe9-1ca5abb862bb",
   "meta": {
     "instanceId": "d47decf17b971c33cf7b5dec9572b981142fa85c3d30a8a0eb41b58fe2f3b048"
   },
