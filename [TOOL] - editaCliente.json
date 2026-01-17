@@ -1,0 +1,188 @@
+{
+  "name": "[TOOL] - editaCliente",
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "estabelecimentoId"
+            },
+            {
+              "name": "observacoes"
+            },
+            {
+              "name": "clienteId"
+            },
+            {
+              "name": "whatsapp"
+            }
+          ]
+        }
+      },
+      "id": "c055762a-8fe7-4141-a639-df2372f30060",
+      "typeVersion": 1.1,
+      "name": "start",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        144,
+        352
+      ]
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://api.trinks.com/v1/clientes/{{ $('start').item.json.clienteId }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "accept",
+              "value": "application/json"
+            },
+            {
+              "name": "estabelecimentoId",
+              "value": "={{ $('start').item.json.estabelecimentoId }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "observacoes",
+              "value": "={{ $('start').item.json.observacoes }}"
+            }
+          ]
+        },
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        400,
+        352
+      ],
+      "id": "baec98aa-e7d4-4428-b428-b681d781506c",
+      "name": "editaCliente",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "fKu8wjWP4nA59r2o",
+          "name": "[CURSO] - Trinks"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "92fe86d6-91c1-4beb-9fa7-01c587635152",
+              "name": "Observações atualizadas para:",
+              "value": "={{ $('start').item.json.observacoes }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        832,
+        352
+      ],
+      "id": "73c7b0a5-2b46-4374-9b3d-78609d5abdc4",
+      "name": "Output"
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "={{ $('start').item.json.whatsapp }}"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        592,
+        352
+      ],
+      "id": "296ecaf4-2287-404b-95b9-896e2f71fdb8",
+      "name": "delRedis",
+      "credentials": {
+        "redis": {
+          "id": "PcR6h7cpTpsMigtm",
+          "name": "[REDIS CHAT] - FlowMidas"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "start": [
+      {
+        "json": {
+          "estabelecimentoId": "146044",
+          "observacoes": "Preferência de tratamento: ser chamado de Caio. Preferência de agendamento: priorizar a profissional Angélica; caso ela não tenha disponibilidade, preferência pela profissional Maria. Cliente relata que gosta muito da clínica.",
+          "clienteId": "71902347",
+          "whatsapp": "81402176"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "connections": {
+    "start": {
+      "main": [
+        [
+          {
+            "node": "editaCliente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "editaCliente": {
+      "main": [
+        [
+          {
+            "node": "delRedis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "delRedis": {
+      "main": [
+        [
+          {
+            "node": "Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "8af8b6ab-33ca-4d9f-ba73-f1615af913dc",
+  "meta": {
+    "instanceId": "d47decf17b971c33cf7b5dec9572b981142fa85c3d30a8a0eb41b58fe2f3b048"
+  },
+  "id": "JTnDI7mXE4qaOIB2",
+  "tags": []
+}

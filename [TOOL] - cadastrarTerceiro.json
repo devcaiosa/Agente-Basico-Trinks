@@ -1,0 +1,158 @@
+{
+  "name": "[TOOL] - cadastrarTerceiro",
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "estabelecimentoId"
+            },
+            {
+              "name": "Dados",
+              "type": "object"
+            }
+          ]
+        }
+      },
+      "id": "c055762a-8fe7-4141-a639-df2372f30060",
+      "typeVersion": 1.1,
+      "name": "start",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        272,
+        352
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "={{ $('start').item.json.Dados.telefones[0].numero }}"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        496,
+        352
+      ],
+      "id": "a15b5b2c-5fc1-4bbf-bf21-2ebe660f40ed",
+      "name": "delRedis",
+      "credentials": {
+        "redis": {
+          "id": "PcR6h7cpTpsMigtm",
+          "name": "[REDIS CHAT] - FlowMidas"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.trinks.com/v1/clientes",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "accept",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "estabelecimentoId",
+              "value": "={{ $('start').item.json.estabelecimentoId }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"telefones\": [\n    {\n      \"ddi\": \"{{ $('start').item.json.Dados.telefones[0].ddi }}\",\n      \"ddd\": \"{{ $('start').item.json.Dados.telefones[0].ddd }}\",\n      \"tipoId\": \"{{ $('start').item.json.Dados.telefones[0].tipoId }}\",\n      \"numero\": \"{{ $('start').item.json.Dados.telefones[0].numero }}\"\n    },\n    {\n      \"ddi\": \"{{ $('start').item.json.Dados.telefones[1].ddi }}\",\n      \"ddd\": \"{{ $('start').item.json.Dados.telefones[1].ddd }}\",\n      \"tipoId\": \"{{ $('start').item.json.Dados.telefones[1].tipoId }}\",\n      \"numero\": \"{{ $('start').item.json.Dados.telefones[1].numero }}\"\n    }\n  ],\n  \"nome\": \"{{ $('start').item.json.Dados.nome }}\",\n  \"genero\": \"{{ $('start').item.json.Dados.genero }}\",\n  \"observacoes\": \"Agendamento solicitado por {{ $('start').item.json.Dados.telefones[0].ddi + $('start').item.json.Dados.telefones[0].ddd + $('start').item.json.Dados.telefones[0].numero}}. {{ $('start').item.json.Dados.observacoes }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        704,
+        352
+      ],
+      "id": "e26ac617-24e0-47fc-83da-30b8108db3e8",
+      "name": "cadastrarTerceiro",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "fKu8wjWP4nA59r2o",
+          "name": "[CURSO] - Trinks"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "start": [
+      {
+        "json": {
+          "estabelecimentoId": "146044",
+          "Dados": {
+            "telefones": [
+              {
+                "ddi": "55",
+                "ddd": "74",
+                "tipoId": "6",
+                "numero": "81402176"
+              },
+              {
+                "ddi": "55",
+                "ddd": "74",
+                "tipoId": "6",
+                "numero": "981402245"
+              }
+            ],
+            "nome": "Edno",
+            "genero": "x",
+            "observacoes": "Agendamento solicitado por 5574981402176. Cadastro solicitado via assistente virtual (agendamento para terceiro)."
+          }
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "connections": {
+    "start": {
+      "main": [
+        [
+          {
+            "node": "delRedis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "delRedis": {
+      "main": [
+        [
+          {
+            "node": "cadastrarTerceiro",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "da462f16-e6e5-4954-acd4-b9585836d03f",
+  "meta": {
+    "instanceId": "d47decf17b971c33cf7b5dec9572b981142fa85c3d30a8a0eb41b58fe2f3b048"
+  },
+  "id": "kembDVuYwVFM8opn",
+  "tags": []
+}

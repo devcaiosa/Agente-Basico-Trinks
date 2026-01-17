@@ -1,0 +1,265 @@
+{
+  "name": "[TOOL] - Disponibilidade",
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "Data"
+            },
+            {
+              "name": "servicoDuracao",
+              "type": "number"
+            }
+          ]
+        }
+      },
+      "id": "c055762a-8fe7-4141-a639-df2372f30060",
+      "typeVersion": 1.1,
+      "name": "start",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        -192,
+        288
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://api.trinks.com/v1/agendamentos/profissionais/{{ $('start').item.json.Data }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "servicoDuracao",
+              "value": "={{ $('start').item.json.servicoDuracao }}"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "accept",
+              "value": "application/json"
+            },
+            {
+              "name": "estabelecimentoId",
+              "value": "146044"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        480,
+        160
+      ],
+      "id": "435f66a0-7b80-4adf-8885-632e0e896c05",
+      "name": "getDisponibilidade",
+      "retryOnFail": true,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "fKu8wjWP4nA59r2o",
+          "name": "[CURSO] - Trinks"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "options": {
+          "timezone": "America/Sao_Paulo"
+        }
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        32,
+        288
+      ],
+      "id": "3cf80cc1-c242-455e-9d56-ffd2b00bb0f2",
+      "name": "Date & Time"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "57f67d5c-f6e7-4363-964f-f239c7675af6",
+              "leftValue": "={{ $('start').item.json.Data.toDateTime().format('yyyy-MM-dd') }}",
+              "rightValue": "={{ $('Date & Time').item.json.currentDate.toDateTime().format('yyyy-MM-dd') }}",
+              "operator": {
+                "type": "dateTime",
+                "operation": "afterOrEquals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        240,
+        288
+      ],
+      "id": "904d3ee4-f379-4f3a-84ca-8a5c62ad751f",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6fa039ce-25e3-41bf-bce5-63bd0229164a",
+              "name": "Status",
+              "value": "Essa é uma data do passado, busque uma data futura.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        480,
+        464
+      ],
+      "id": "7c469877-7460-4281-9810-41bcdc52bf63",
+      "name": "Output"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Pegar a data atual\nconst currentDateData = $('Date & Time').first().json.currentDate;\nconst currentDate = new Date(currentDateData);\n\n// CORREÇÃO: Converter para o fuso horário do Brasil\n// O timestamp vem em UTC, precisamos ajustar para -03:00 (horário de Brasília)\nconst offsetBrasil = -3; // UTC-3\nconst currentDateBrasil = new Date(currentDate.getTime() + (offsetBrasil * 60 * 60 * 1000));\n\n// Extrair hora do Brasil corretamente\nconst horaBrasil = currentDateBrasil.getUTCHours();\nconst minutoBrasil = currentDateBrasil.getUTCMinutes();\n\n// Pegar a data da busca\nconst dataBusca = $('start').first().json.Data;\nconst dataBuscaObj = new Date(dataBusca + 'T00:00:00-03:00'); // Adicionar timezone do Brasil\n\n// Pegar os dados de disponibilidade\nconst disponibilidadeData = $('getDisponibilidade').first().json.data;\n\n// Função para converter horário string para minutos\nfunction horarioParaMinutos(horario) {\n  const [horas, minutos] = horario.split(':').map(Number);\n  return horas * 60 + minutos;\n}\n\n// Obter horário atual em minutos\nconst horaAtualMinutos = horaBrasil * 60 + minutoBrasil;\n\n// Verificar se a data da busca é hoje (comparando em horário do Brasil)\nfunction isMesmoDia(data1, data2) {\n  return data1.getUTCFullYear() === data2.getUTCFullYear() &&\n         data1.getUTCMonth() === data2.getUTCMonth() &&\n         data1.getUTCDate() === data2.getUTCDate();\n}\n\nconst ehHoje = isMesmoDia(currentDateBrasil, dataBuscaObj);\n\n// Filtrar horários vagos\nconst dadosFiltrados = disponibilidadeData.map(profissional => {\n  let horariosFiltrados = [...profissional.horariosVagos];\n  \n  if (ehHoje) {\n    // Filtrar apenas horários futuros\n    horariosFiltrados = profissional.horariosVagos.filter(horario => {\n      const horarioMinutos = horarioParaMinutos(horario);\n      return horarioMinutos > horaAtualMinutos;\n    });\n  }\n  \n  return {\n    id: profissional.id,\n    nome: profissional.nome,\n    horariosVagos: horariosFiltrados\n  };\n});\n\n// Retornar os dados no formato solicitado\nreturn {\n  data: dataBusca,\n  disponibilidade: dadosFiltrados\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        736,
+        16
+      ],
+      "id": "778d13cd-7d1d-4952-a754-3b721a68d6f5",
+      "name": "verifica"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6fa039ce-25e3-41bf-bce5-63bd0229164a",
+              "name": "Status",
+              "value": "API fora do ar, tenta mais tarde.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        736,
+        288
+      ],
+      "id": "acae0be4-47fb-4c38-9154-c13bce651354",
+      "name": "Output1"
+    }
+  ],
+  "pinData": {
+    "start": [
+      {
+        "json": {
+          "Data": "2026-01-06",
+          "servicoDuracao": 10
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "connections": {
+    "start": {
+      "main": [
+        [
+          {
+            "node": "Date & Time",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Date & Time": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "getDisponibilidade",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "getDisponibilidade": {
+      "main": [
+        [
+          {
+            "node": "verifica",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Output1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "d4318215-d49f-4da7-8fe9-1ca5abb862bb",
+  "meta": {
+    "instanceId": "d47decf17b971c33cf7b5dec9572b981142fa85c3d30a8a0eb41b58fe2f3b048"
+  },
+  "id": "ikjjdW99VBy6IZx6",
+  "tags": []
+}
